@@ -1,9 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('test') {
       steps {
-        sh 'docker run -v$(pwd):/home -w=/home maven:3.6.3-jdk-14 mvn compile test'
+          
+          script{
+              
+              docker.image('maven:3.6.3-jdk-14').inside('-v /home/hsoo/.m2:/root/.m2 -u root') {
+                  sh 'ls'
+                  sh 'pwd'
+                sh 'mvn compile test'
+              }
+          }
       }
     }
 
